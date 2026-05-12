@@ -1,0 +1,2606 @@
+
+
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zinkly – Learn Music From the Best</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Sora:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & BASE ─────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08080E;
+  --bg2:#0F0F1A;
+  --bg3:#161625;
+  --gold:#F5A623;
+  --pink:#E8387A;
+  --teal:#00D4AA;
+  --white:#FFFFFF;
+  --muted:#8888AA;
+  --card:#13131F;
+  --border:rgba(255,255,255,0.07);
+  --radius:16px;
+  --font-display:'Bebas Neue',sans-serif;
+  --font-serif:'Playfair Display',serif;
+  --font-body:'Sora',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:var(--font-body);font-size:16px;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+button{cursor:pointer;border:none;background:none;font-family:var(--font-body)}
+
+/* ─── PAGE SYSTEM ──────────────────────────────── */
+.page{display:none;min-height:100vh}
+.page.active{display:block}
+
+/* ─── SCROLLBAR ────────────────────────────────── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/* =========================================
+   NAVBAR
+========================================= */
+
+nav{
+   position:fixed;
+   top:0;
+   left:0;
+   width:100%;
+
+   display:flex;
+   align-items:center;
+   justify-content:space-between;
+
+   padding:18px 24px;
+
+   background:rgba(8,8,14,0.45);
+   backdrop-filter:blur(14px);
+   -webkit-backdrop-filter:blur(14px);
+
+   border-bottom:1px solid rgba(255,255,255,0.06);
+
+   z-index:1000;
+}
+
+.nav-right{
+   display:flex;
+   align-items:center;
+   gap:24px;
+}
+
+/* Navbar after scroll */
+
+nav.scrolled{
+    background:rgba(8,8,14,0.82);
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+/* Logo */
+
+.nav-logo{
+  font-family:var(--font-display);
+  font-size:32px;
+  letter-spacing:2px;
+  margin-right: 10px;
+  background:linear-gradient(
+        135deg,
+        var(--gold),
+        var(--pink)
+    );
+
+   -webkit-background-clip:text;
+   -webkit-text-fill-color:transparent;
+   background-clip:text;
+
+    cursor:pointer;
+}
+
+.menu-toggle{
+   display:none;
+   font-size:28px;
+   color:white;
+   cursor:pointer;
+}
+
+/* Navigation links */
+
+.nav-links{
+    display:flex;
+    gap: 48px;
+    align-items:center;
+}
+
+.nav-links a,
+.nav-links button{
+  font-size:14px;
+  font-weight:500;
+   color:var(--muted);
+   letter-spacing:0.5px;
+   transition:color .25s;
+   background:none;
+    padding:0;
+}
+
+/* Active & hover states */
+
+.nav-links a:hover,
+.nav-links button:hover,
+.nav-links a.active,
+.nav-links button.active{
+    color:var(--white);
+}
+
+/* CTA button */
+.nav-cta{
+    margin-left: 0;
+
+    background:rgba(255,255,255,0.12);
+
+    color:rgba(151, 145, 201, 0.662) !important;
+
+    border:1px solid rgb(63, 60, 60);
+
+    padding:10px 24px !important;
+    border-radius:50px;
+
+    font-weight:600 !important;
+    font-size:13px !important;
+
+    transition:all .25s ease !important;
+}
+
+.nav-cta:hover{
+
+    background:var(--gold);
+
+    color:#fff !important;
+
+    border-color:var(--gold);
+
+    transform:translateY(-1px);
+
+    box-shadow:0 8px 24px rgba(
+        245,
+        166,
+        35,
+        0.35
+    );
+}
+
+/* ─── SHARED COMPONENTS ────────────────────────── */
+.container{max-width:1200px;margin:0 auto;padding:0 40px}
+.section{padding:100px 0}
+.section-label{font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.section-title{font-family:var(--font-display);font-size:clamp(40px,5vw,68px);letter-spacing:1px;line-height:1.05}
+.section-title span{color:var(--gold)}
+.section-sub{color:var(--muted);font-size:17px;margin-top:16px;max-width:520px;line-height:1.7}
+
+.btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#000;font-weight:700;font-size:14px;letter-spacing:0.5px;padding:14px 32px;border-radius:50px;transition:all .25s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(245,166,35,0.4)}
+.btn-outline{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,0.2);color:var(--white);font-weight:500;font-size:14px;padding:14px 32px;border-radius:50px;transition:all .25s}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+
+.tag{display:inline-block;padding:6px 16px;border-radius:50px;font-size:12px;font-weight:600;letter-spacing:0.5px;border:1px solid var(--border)}
+.tag-gold{background:rgba(245,166,35,0.1);border-color:rgba(245,166,35,0.3);color:var(--gold)}
+.tag-pink{background:rgba(232,56,122,0.1);border-color:rgba(232,56,122,0.3);color:var(--pink)}
+.tag-teal{background:rgba(0,212,170,0.1);border-color:rgba(0,212,170,0.3);color:var(--teal)}
+
+/* ─── ARTIST CARD ──────────────────────────────── */
+.artist-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:transform .3s,box-shadow .3s;cursor:pointer}
+.artist-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,0.5)}
+.artist-img{width:100%;aspect-ratio:1;object-fit:cover;position:relative}
+.artist-img-wrap{position:relative;overflow:hidden}
+.artist-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,14,0.9) 0%,transparent 50%)}
+.artist-info{padding:20px}
+.artist-name{font-family:var(--font-display);font-size:22px;letter-spacing:1px}
+.artist-genre{color:var(--muted);font-size:13px;margin-top:4px}
+.artist-stats{display:flex;gap:20px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.artist-stat{font-size:12px;color:var(--muted)}
+.artist-stat strong{color:var(--white);display:block;font-size:15px;font-weight:600}
+
+/* =========================================
+   HIDDEN ARTISTS
+========================================= */
+.hidden-artist{
+    display:none;
+}
+
+/* gradient artist photos */
+.grad-1{background:linear-gradient(135deg,#1a0533,#6b1a4a,#d4386a)}
+.grad-2{background:linear-gradient(135deg,#001a33,#0d4a7a,#00a8cc)}
+.grad-3{background:linear-gradient(135deg,#1a1a00,#4a4a00,#c8a800)}
+.grad-4{background:linear-gradient(135deg,#001a10,#0a5a30,#00c870)}
+.grad-5{background:linear-gradient(135deg,#1a000a,#6a002a,#e0005a)}
+.grad-6{background:linear-gradient(135deg,#0a0a1a,#1a1a5a,#3030cc)}
+.grad-7{background:linear-gradient(135deg,#1a0a00,#5a2a00,#c85a00)}
+.grad-8{background:linear-gradient(135deg,#0a1a1a,#005a5a,#00cccc)}
+
+.artist-avatar{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:72px;position:relative}
+
+/* ─── ══════════════════════════════════════════ ─── */
+/* ─── PAGE 1: HOME ─────────────────────────────── */
+/* ─── ══════════════════════════════════════════ ─── */
+
+/* HERO */
+ .hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding-top:140px;}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 65% 40%,rgba(232,56,122,0.15) 0%,transparent 70%)}
+.hero-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 50% at 30% 60%,rgba(245,166,35,0.08) 0%,transparent 60%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 80%)}
+.hero-content{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1200px;margin:0 auto;padding:0 40px;width:100%}
+.hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:40px;}
+.hero-eyebrow-line{width:40px;height:1px;background:var(--gold)}
+.hero-eyebrow span{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:600}
+.hero-h1{font-family:var(--font-display);font-size:clamp(52px,7vw,96px);line-height:0.95;letter-spacing:1px}
+.hero-h1 .line2{color:var(--gold)}
+.hero-h1 .line3{font-family:var(--font-serif);font-style:italic;color:var(--muted);font-size:clamp(36px,4.5vw,64px)}
+.hero-desc{color:var(--muted);font-size:17px;line-height:1.7;margin:28px 0 40px;max-width:460px}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
+.hero-numbers{display:flex;gap:40px;margin-top:56px;padding-top:40px;border-top:1px solid var(--border)}
+.hero-num-val{font-family:var(--font-display);font-size:36px;color:var(--gold)}
+.hero-num-label{font-size:12px;color:var(--muted);margin-top:2px}
+
+.hero-visual{position:relative}
+.hero-card-main{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;position:relative}
+.hero-card-main .artist-avatar{height:360px;font-size:100px}
+.hero-badge{position:absolute;top:20px;left:20px;z-index:3;background:rgba(8,8,14,0.9);border:1px solid var(--border);border-radius:50px;padding:8px 16px;display:flex;align-items:center;gap:8px;font-size:12px}
+.badge-dot{width:8px;height:8px;border-radius:50%;background:#00D4AA;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,212,170,0.4)}50%{box-shadow:0 0 0 8px rgba(0,212,170,0)}}
+.hero-card-info{padding:20px}
+.hero-card-info h3{font-family:var(--font-display);font-size:22px;letter-spacing:1px}
+.hero-card-info p{color:var(--muted);font-size:13px;margin-top:4px}
+.floating-card{position:absolute;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;width:180px}
+.floating-card.fc1{top:-20px;right:-20px;animation:float1 4s ease-in-out infinite}
+.floating-card.fc2{bottom:60px;left:-30px;animation:float2 5s ease-in-out infinite}
+@keyframes float1{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+.fc-icon{font-size:24px;margin-bottom:8px}
+.fc-label{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.fc-val{font-family:var(--font-display);font-size:20px;margin-top:2px}
+
+/* CATEGORIES */
+.categories-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:28px;
+    margin-top:50px;
+}
+.cat-card{
+    background:rgba(19,19,31,0.88);
+
+    border:1px solid rgba(255,255,255,0.06);
+
+    border-radius:20px;
+
+    padding:38px 34px;
+
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease,
+        border-color .35s ease;
+
+    cursor:pointer;
+
+    position:relative;
+
+    overflow:hidden;
+}
+.cat-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s}
+.cat-card:hover{
+    transform:translateY(-8px);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.45);
+
+    border-color:rgba(245,166,35,.18);
+}
+.cat-card:hover{transform:translateY(-4px);border-color:transparent}
+.cat-singing::before{background:linear-gradient(135deg,rgba(232,56,122,0.15),transparent)}
+.cat-singing:hover{box-shadow:0 0 0 1px var(--pink)}
+.cat-dj::before{background:linear-gradient(135deg,rgba(245,166,35,0.15),transparent)}
+.cat-dj:hover{box-shadow:0 0 0 1px var(--gold)}
+.cat-writing::before{background:linear-gradient(135deg,rgba(0,212,170,0.15),transparent)}
+.cat-writing:hover{box-shadow:0 0 0 1px var(--teal)}
+.cat-production::before{background:linear-gradient(135deg,rgba(180,100,255,0.15),transparent)}
+.cat-production:hover{box-shadow:0 0 0 1px #b464ff}
+.cat-instrument::before{background:linear-gradient(135deg,rgba(232,56,122,0.15),transparent)}
+.cat-instrument:hover{box-shadow:0 0 0 1px var(--pink)}
+.cat-mentorship::before{background:linear-gradient(135deg,rgba(245,166,35,0.15),transparent)}
+.cat-mentorship:hover{box-shadow:0 0 0 1px var(--gold)}
+
+.cat-icon{
+    font-size:42px;
+    margin-bottom:22px;
+    display:block;
+}
+.cat-title{
+    font-family:var(--font-display);
+
+    font-size:24px;
+
+    letter-spacing:1px;
+
+    margin-bottom:14px;
+}
+.cat-desc{
+    color:var(--muted);
+
+    font-size:15px;
+
+    margin-top:10px;
+
+    line-height:1.8;
+}
+.cat-count{
+    position:absolute;
+
+    top:24px;
+    right:24px;
+
+    font-size:12px;
+
+    color:var(--muted);
+}
+
+/* HOW IT WORKS */
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:60px}
+.step-card{text-align:center;position:relative}
+.step-card:not(:last-child)::after{content:'→';position:absolute;top:28px;right:-20px;color:var(--border);font-size:24px}
+.step-num{width:56px;height:56px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:22px;color:var(--gold);margin:0 auto 20px}
+.step-title{font-weight:600;font-size:16px;margin-bottom:10px}
+.step-desc{color:var(--muted);font-size:13px;line-height:1.6}
+
+/* FEATURED ARTISTS ROW */
+.artists-row{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:50px}
+
+/* TESTIMONIALS */
+.testimonials-row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:50px}
+.testi-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px}
+.testi-stars{color:var(--gold);font-size:14px;margin-bottom:16px}
+.testi-text{font-size:15px;line-height:1.7;font-family:var(--font-serif);font-style:italic;color:rgba(255,255,255,0.85)}
+.testi-author{display:flex;align-items:center;gap:12px;margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.testi-avatar{width:40px;height:40px;border-radius:50%;font-size:20px;display:flex;align-items:center;justify-content:center}
+.testi-name{font-weight:600;font-size:14px}
+.testi-role{font-size:12px;color:var(--muted)}
+
+/* CTA BANNER */
+.cta-banner{
+    background:
+        linear-gradient(
+            135deg,
+            #1a0900 0%,
+            #3a1400 45%,
+            #5a2400 100%
+        );
+
+    border:1px solid rgba(245,166,35,0.18);
+
+    border-radius:28px;
+
+    padding:90px 70px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:50px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.35);
+}
+.cta-banner{
+    background:
+        linear-gradient(
+            135deg,
+            #1a0900 0%,
+            #3a1400 45%,
+            #5a2400 100%
+        );
+
+    border:1px solid rgba(245,166,35,0.18);
+
+    border-radius:28px;
+
+    padding:90px 70px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:50px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.35);
+}
+.cta-banner-title{
+    font-family:var(--font-display);
+
+    font-size:clamp(48px,5vw,72px);
+
+    letter-spacing:1px;
+
+    max-width:520px;
+
+    line-height:1;
+}
+.cta-banner-title span{color:var(--gold)}
+.cta-actions{
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-end;
+
+    gap:18px;
+
+    flex-shrink:0;
+
+    z-index:2;
+}
+
+/* FOOTER */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:60px 0 30px}
+.footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:40px}
+.footer-brand p{color:var(--muted);font-size:14px;margin-top:16px;line-height:1.7;max-width:260px}
+.footer-col h4{font-weight:600;font-size:14px;margin-bottom:20px;color:var(--white)}
+.footer-col a{display:block;color:var(--muted);font-size:14px;margin-bottom:12px;transition:color .2s}
+.footer-col a:hover{color:var(--gold)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px}
+.social-links{display:flex;gap:16px}
+.social-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s;cursor:pointer}
+.social-btn:hover{border-color:var(--gold);background:rgba(245,166,35,0.1)}
+
+/* ─── PAGE 2: ARTISTS ───────────────────────────── */
+.page-hero{padding:140px 0 80px;text-align:center;position:relative}
+.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 0%,rgba(245,166,35,0.08),transparent 70%)}
+.filter-bar{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:40px}
+.filter-btn{padding:10px 24px;border-radius:50px;font-size:13px;font-weight:500;border:1px solid var(--border);color:var(--muted);transition:all .25s;cursor:pointer;background:none;font-family:var(--font-body)}
+.filter-btn:hover,.filter-btn.active{background:var(--gold);color:#000;border-color:var(--gold)}
+.artists-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:30px;
+    margin-top:60px;
+}
+
+/* ─── PAGE 3: ARTIST PROFILE ───────────────────── */
+.profile-hero{display:grid;grid-template-columns:340px 1fr;gap:60px;padding:140px 0 80px;align-items:start}
+.profile-img-wrap{position:relative}
+.profile-img{width:100%;aspect-ratio:3/4;border-radius:20px;overflow:hidden;position:relative}
+.profile-img-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:120px}
+.profile-verified{position:absolute;top:16px;right:16px;background:var(--gold);color:#000;border-radius:50px;padding:6px 14px;font-size:12px;font-weight:700}
+.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+.profile-stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+.profile-stat-val{font-family:var(--font-display);font-size:28px;color:var(--gold)}
+.profile-stat-label{font-size:12px;color:var(--muted);margin-top:4px}
+.profile-info-name{font-family:var(--font-display);font-size:clamp(48px,6vw,80px);letter-spacing:1px;line-height:1}
+.profile-genre-tags{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+.profile-bio{color:var(--muted);font-size:16px;line-height:1.8;max-width:560px}
+.profile-actions{display:flex;gap:16px;margin-top:32px;flex-wrap:wrap}
+.profile-sections{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:60px;padding-bottom:80px}
+.profile-section-full{grid-column:1/-1}
+.section-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.section-box-header{padding:24px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.section-box-title{font-weight:600;font-size:16px;display:flex;align-items:center;gap:10px}
+.section-box-body{padding:24px 28px}
+.lesson-item{display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--border)}
+.lesson-item:last-child{border-bottom:none}
+.lesson-type{font-weight:600;font-size:15px}
+.lesson-detail{font-size:13px;color:var(--muted);margin-top:3px}
+.lesson-price{text-align:right}
+.lesson-price-val{font-family:var(--font-display);font-size:22px;color:var(--gold)}
+.lesson-price-unit{font-size:12px;color:var(--muted)}
+.discography-item{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--border)}
+.discography-item:last-child{border-bottom:none}
+.disco-cover{width:56px;height:56px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.disco-info{flex:1}
+.disco-title{font-weight:600;font-size:15px}
+.disco-meta{font-size:12px;color:var(--muted);margin-top:3px}
+.disco-apple{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:50px;padding:8px 16px;font-size:13px;font-weight:600;transition:all .2s;cursor:pointer;color:var(--white)}
+.disco-apple:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.2)}
+.apple-icon{font-size:16px}
+.review-item{padding:20px 0;border-bottom:1px solid var(--border)}
+.review-item:last-child{border-bottom:none}
+.review-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.reviewer-name{font-weight:600;font-size:14px}
+.reviewer-time{font-size:12px;color:var(--muted)}
+.review-text{color:rgba(255,255,255,0.75);font-size:14px;line-height:1.7}
+
+/* ─── PAGE 4: BOOKING ───────────────────────────── */
+.booking-layout{display:grid;grid-template-columns:1fr 400px;gap:50px;padding:140px 0 80px;align-items:start}
+.booking-form{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.booking-form-header{padding:32px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,rgba(245,166,35,0.08),transparent)}
+.booking-form-body{padding:32px}
+.form-group{margin-bottom:24px}
+.form-label{font-size:13px;font-weight:600;color:var(--white);margin-bottom:8px;display:block;letter-spacing:0.5px}
+.form-control{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 18px;color:var(--white);font-family:var(--font-body);font-size:14px;outline:none;transition:border-color .2s}
+.form-control:focus{border-color:var(--gold)}
+.form-control option{background:var(--bg3)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.booking-summary{position:sticky;top:100px}
+.summary-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.summary-artist{display:flex;align-items:center;gap:16px;padding:24px;border-bottom:1px solid var(--border)}
+.summary-avatar{width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:30px}
+.summary-artist-name{font-family:var(--font-display);font-size:20px;letter-spacing:1px}
+.summary-artist-genre{font-size:12px;color:var(--muted)}
+.summary-lines{padding:24px}
+.summary-line{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-size:14px}
+.summary-line-label{color:var(--muted)}
+.summary-line-val{font-weight:600}
+.summary-total{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-top:1px solid var(--border);background:rgba(245,166,35,0.05)}
+.summary-total-label{font-weight:600}
+.summary-total-val{font-family:var(--font-display);font-size:28px;color:var(--gold)}
+.availability-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.avail-slot{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;font-size:13px;cursor:pointer;transition:all .2s}
+.avail-slot:hover,.avail-slot.selected{background:rgba(245,166,35,0.1);border-color:var(--gold);color:var(--gold)}
+.avail-slot.taken{opacity:0.3;cursor:not-allowed}
+
+/* ─── PAGE 5: HOW IT WORKS ──────────────────────── */
+.hiw-hero{padding:140px 0 80px;text-align:center}
+.hiw-steps{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:60px}
+.hiw-step{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:40px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start;transition:all .3s}
+.hiw-step:hover{border-color:rgba(245,166,35,0.3);transform:translateY(-3px)}
+.hiw-step-num{width:52px;height:52px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:22px;color:var(--gold);flex-shrink:0}
+.hiw-step-title{font-weight:700;font-size:20px;margin-bottom:12px}
+.hiw-step-desc{color:var(--muted);font-size:14px;line-height:1.7}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:50px}
+.feature-item{text-align:center;padding:40px 30px}
+.feature-icon{font-size:48px;margin-bottom:20px;display:block}
+.feature-title{font-weight:700;font-size:18px;margin-bottom:12px}
+.feature-desc{color:var(--muted);font-size:14px;line-height:1.7}
+.pricing-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:50px}
+.pricing-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:40px;text-align:center;transition:all .3s;position:relative}
+.pricing-card.featured{border-color:var(--gold);background:linear-gradient(135deg,rgba(245,166,35,0.08),var(--card))}
+.pricing-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--gold);color:#000;font-size:11px;font-weight:700;padding:6px 20px;border-radius:50px;letter-spacing:1px}
+.pricing-plan{font-family:var(--font-display);font-size:22px;letter-spacing:1px;margin-bottom:8px}
+.pricing-price{font-family:var(--font-display);font-size:52px;color:var(--gold);line-height:1}
+.pricing-price sup{font-size:22px;vertical-align:top;margin-top:12px;color:var(--muted)}
+.pricing-period{font-size:13px;color:var(--muted);margin-bottom:32px}
+.pricing-features{text-align:left;margin-bottom:32px}
+.pricing-features li{display:flex;align-items:center;gap:10px;font-size:14px;margin-bottom:12px;color:rgba(255,255,255,0.8)}
+.pricing-features li::before{content:'✓';color:var(--gold);font-weight:700;flex-shrink:0}
+
+/* ─── PAGE 6: CONTACT ───────────────────────────── */
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:140px 0 80px;align-items:start}
+.contact-info h2{font-family:var(--font-display);font-size:52px;letter-spacing:1px;margin-bottom:24px;line-height:1.05}
+.contact-info h2 span{color:var(--gold)}
+.contact-info p{color:var(--muted);font-size:16px;line-height:1.8;margin-bottom:40px}
+.contact-methods{display:flex;flex-direction:column;gap:20px}
+.contact-method{display:flex;align-items:center;gap:16px;padding:20px 24px;background:var(--card);border:1px solid var(--border);border-radius:12px}
+.cm-icon{font-size:24px}
+.cm-label{font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.cm-val{font-weight:600;font-size:15px;margin-top:4px}
+.contact-form{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:40px}
+.contact-form h3{font-family:var(--font-display);font-size:28px;letter-spacing:1px;margin-bottom:8px}
+.contact-form p{color:var(--muted);font-size:14px;margin-bottom:30px}
+textarea.form-control{resize:none;height:130px}
+.newsletter-band{background:linear-gradient(135deg,var(--bg2),var(--bg3));border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:60px 0;text-align:center;margin:0}
+.newsletter-band h3{font-family:var(--font-display);font-size:40px;letter-spacing:1px;margin-bottom:12px}
+.newsletter-band p{color:var(--muted);font-size:16px;margin-bottom:30px}
+.newsletter-row{display:flex;gap:12px;justify-content:center;max-width:480px;margin:0 auto}
+.newsletter-row .form-control{border-radius:50px;flex:1}
+.newsletter-row .btn-primary{white-space:nowrap;border-radius:50px}
+
+/* ─── ANIMATIONS ───────────────────────────────── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .6s ease forwards}
+.fade-up-2{animation:fadeUp .6s .15s ease forwards;opacity:0}
+.fade-up-3{animation:fadeUp .6s .3s ease forwards;opacity:0}
+.fade-up-4{animation:fadeUp .6s .45s ease forwards;opacity:0}
+
+/* ─── RESPONSIVE ───────────────────────────────── */
+/* TABLET */
+
+@media(max-width:900px){
+
+  .hero h1{
+    font-size:72px;
+    line-height:0.95;
+  }
+
+  .hero-content{
+    grid-template-columns:1fr;
+    gap:40px;
+    text-align:center;
+    justify-items:center;
+  }
+
+  .hero-visual{
+    display:none;
+  }
+
+  .hero-buttons{
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+
+  .categories-grid,
+  .steps-grid,
+  .artists-row,
+  .artists-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+    .nav-links{
+     gap:24px;
+  }
+
+
+
+  .profile-hero,
+  .profile-sections,
+  .booking-layout,
+  .hiw-steps,
+  .pricing-cards,
+  .features-grid,
+  .contact-layout,
+  .form-row{
+    grid-template-columns:1fr;
+  }
+
+  .profile-section-full{
+    grid-column:1;
+  }
+
+    section{
+     text-align:center;
+  }
+
+  .cta-banner{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .cta-actions{
+    align-items:center;
+  }
+
+  .testimonials-row{
+    grid-template-columns:1fr;
+  }
+
+  .logo{
+   margin-right:30px;
+}
+
+ .hero-actions{
+   display:flex;
+   gap:16px;
+   flex-wrap:wrap;
+   justify-content:center;
+}
+
+.hero-numbers{
+ 
+  justify-content: center;
+
+}
+
+.hero-num-val{
+ 
+  justify-content: center;
+}
+
+.hero-num-label{
+ 
+ justify-content: center;
+
+}
+
+  .section-sub{
+      text-align:center;
+      max-width:700px;
+      margin:0 auto;
+  }
+
+.footer-inner{
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    justify-items:center;
+    text-align:center;
+}
+
+.footer-brand p{
+    max-width:100%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.social-links{
+    justify-content:center;
+}
+
+.footer-bottom{
+    flex-direction:column;
+    gap:20px;
+    text-align:center;
+}
+
+
+}
+
+
+ 
+/* TABLET NAV */
+
+@media(max-width:768px){
+
+   nav{
+    position:relative;
+  }
+
+  .nav-cta{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    margin-left:0;
+  }
+
+  .nav-links{
+    display:none;
+  }
+
+  .menu-toggle{
+    display:block;
+  }
+
+}
+
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+  nav{
+    padding:16px 20px;
+  }
+
+ .nav-logo,
+ .logo{
+   font-size:28px;
+}
+
+  .nav-cta{
+    padding:8px 16px;
+   font-size:13px;
+  }
+
+}
+
+@media(max-width:480px){
+
+   .hero-eyebrow{
+    position:relative;
+    top:-100px;
+  }
+
+
+  .footer-inner{
+    grid-template-columns:1fr;
+    justify-items:center;
+    text-align:center;
+    gap:32px;
+    padding:0 20px;
+  }
+
+  .footer-col{
+    width:100%;
+    max-width:220px;
+  }
+
+   .categories-grid,
+  .artists-grid,
+  .steps-grid{
+    grid-template-columns:1fr;
+  }
+  
+ 
+}
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  NAV                                                    -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<nav>
+
+  <!-- LOGO -->
+  <div class="nav-logo" onclick="showPage('home')">
+    ZINKLY
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="nav-right">
+
+    <!-- NAV LINKS -->
+    <div class="nav-links">
+      <button onclick="showPage('home')" class="active" id="nav-home">
+        Home
+      </button>
+
+      <button onclick="showPage('artists')" id="nav-artists">
+        Artists
+      </button>
+
+      <button onclick="showPage('profile')" id="nav-profile">
+        Artist Profile
+      </button>
+
+      <button onclick="showPage('how')" id="nav-how">
+        How It Works
+      </button>
+
+      <button onclick="showPage('contact')" id="nav-contact">
+        Contact
+      </button>
+    </div>
+
+    <!-- CTA -->
+    <button onclick="showPage('booking')" class="nav-cta">
+      Book a Lesson
+    </button>
+
+    <!-- HAMBURGER -->
+    <div class="menu-toggle">☰</div>
+
+  </div>
+
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  PAGE 1: HOME                                           -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"><div class="hero-grid"></div></div>
+    <div class="hero-content">
+      <div>
+        <div class="hero-eyebrow fade-up"><div class="hero-eyebrow-line"></div><span>World's #1 Music Mentorship Platform</span></div>
+        <h1 class="hero-h1 fade-up-2">LEARN FROM<br><span class="line2">REAL ARTISTS.</span><br><span class="line3">Grow your craft.</span></h1>
+        <p class="hero-desc fade-up-3">Zinkly connects aspiring musicians with the biggest names in the industry. Book live lessons, get personal mentorship, and unlock your musical potential.</p>
+        <div class="hero-actions fade-up-4">
+          <button class="btn-primary" onclick="showPage('artists')">✦ Explore Artists</button>
+          <button class="btn-outline" onclick="showPage('how')">How It Works →</button>
+        </div>
+        <div class="hero-numbers fade-up-4">
+          <div><div class="hero-num-val">500+</div><div class="hero-num-label">Pro Artists</div></div>
+          <div><div class="hero-num-val">40K+</div><div class="hero-num-label">Active Learners</div></div>
+          <div><div class="hero-num-val">120+</div><div class="hero-num-label">Countries</div></div>
+        </div>
+      </div>
+      <div class="hero-visual fade-up-2">
+        <div class="hero-card-main">
+          <div class="artist-img-wrap">
+            <div class="artist-avatar grad-1">🎤</div>
+            <div class="hero-badge"><span class="badge-dot"></span>Live Session Now</div>
+          </div>
+          <div class="hero-card-info">
+            <h3>ARIA NOVA</h3>
+            <p>Vocal Coach · R&B / Soul · Grammy Nominated</p>
+          </div>
+        </div>
+        <div class="floating-card fc1">
+          <div class="fc-icon">🎵</div>
+          <div class="fc-label">Lessons Today</div>
+          <div class="fc-val">247</div>
+        </div>
+        <div class="floating-card fc2">
+          <div class="fc-icon">⭐</div>
+          <div class="fc-label">Avg Rating</div>
+          <div class="fc-val">4.97</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="section" style="padding-top:60px">
+    <div class="container">
+      <div class="section-label">What You'll Learn</div>
+      <div class="section-title">
+  Explore Every <span>Musical Path</span>
+</div>
+
+<div class="section-sub">
+  From singing lessons with Grammy winners to DJ masterclasses with legendary producers — your journey starts here.
+</div>
+
+<div class="categories-grid">
+
+  <!-- SINGING -->
+  <div class="cat-card cat-singing"
+       onclick="openArtistCategory('singing')">
+
+    <span class="cat-icon">🎤</span>
+    <div class="cat-count">128 Artists</div>
+    <div class="cat-title">Singing</div>
+
+    <div class="cat-desc">
+      Voice training, technique, breath control,
+      and performance from world-class vocal artists.
+    </div>
+  </div>
+
+  <!-- DJ -->
+  <div class="cat-card cat-dj"
+       onclick="openArtistCategory('dj')">
+
+    <span class="cat-icon">🎧</span>
+    <div class="cat-count">94 Artists</div>
+    <div class="cat-title">DJing</div>
+
+    <div class="cat-desc">
+      Beat-matching, mixing, transitions,
+      and live performance skills from top DJs worldwide.
+    </div>
+  </div>
+
+  <!-- WRITING -->
+  <div class="cat-card cat-writing"
+       onclick="openArtistCategory('writing')">
+
+    <span class="cat-icon">✍️</span>
+    <div class="cat-count">76 Artists</div>
+    <div class="cat-title">Music Writing</div>
+
+    <div class="cat-desc">
+      Craft compelling lyrics, melodies,
+      and song structures with hit-making songwriters.
+    </div>
+  </div>
+
+  <!-- PRODUCTION -->
+  <div class="cat-card cat-production"
+       onclick="openArtistCategory('production')">
+
+    <span class="cat-icon">🎛️</span>
+    <div class="cat-count">112 Artists</div>
+    <div class="cat-title">Music Production</div>
+
+    <div class="cat-desc">
+      DAW mastery, sound design, mixing,
+      and mastering from platinum producers.
+    </div>
+  </div>
+
+  <!-- INSTRUMENT -->
+  <div class="cat-card cat-instrument"
+       onclick="openArtistCategory('instrument')">
+
+    <span class="cat-icon">🎸</span>
+    <div class="cat-count">160 Artists</div>
+    <div class="cat-title">Instrument Training</div>
+
+    <div class="cat-desc">
+      Guitar, piano, drums, bass, violin —
+      learn any instrument from touring professionals.
+    </div>
+  </div>
+
+  <!-- MENTORSHIP -->
+  <div class="cat-card cat-mentorship"
+       onclick="showPage('profile')">
+
+    <span class="cat-icon">🌟</span>
+    <div class="cat-count">500+ Artists</div>
+    <div class="cat-title">Mentorship</div>
+
+    <div class="cat-desc">
+      Real industry guidance, career advice,
+      and personal feedback from working artists.
+    </div>
+  </div>
+
+</div>
+  </section>
+
+  <!-- FEATURED ARTISTS -->
+  <section class="section" style="background:var(--bg2)">
+    <div class="container">
+      <div class="section-label">Featured Artists</div>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px">
+        <div class="section-title">Learn From the <span>Best</span></div>
+<button
+  class="btn-outline"
+  onclick="openAllArtists()"
+>
+  View All Artists →
+</button>      
+</div>
+      <div class="artists-row">
+        <div class="artist-card" onclick="showPage('profile')">
+          <div class="artist-img-wrap"><div class="artist-avatar grad-1">🎤</div></div>
+          <div class="artist-info">
+            <div class="artist-name">ARIA NOVA</div>
+            <div class="artist-genre">Vocal · R&B / Soul</div>
+            <div class="artist-stats">
+              <div class="artist-stat"><strong>4.98</strong>Rating</div>
+              <div class="artist-stat"><strong>1.2K</strong>Students</div>
+              <div class="artist-stat"><strong>₹2,400</strong>/hr</div>
+            </div>
+          </div>
+        </div>
+        <div class="artist-card" onclick="showPage('profile')">
+          <div class="artist-img-wrap"><div class="artist-avatar grad-2">🎧</div></div>
+          <div class="artist-info">
+            <div class="artist-name">DJ VOLTZ</div>
+            <div class="artist-genre">DJ · Electronic</div>
+            <div class="artist-stats">
+              <div class="artist-stat"><strong>4.96</strong>Rating</div>
+              <div class="artist-stat"><strong>890</strong>Students</div>
+              <div class="artist-stat"><strong>₹3,200</strong>/hr</div>
+            </div>
+          </div>
+        </div>
+        <div class="artist-card" onclick="showPage('profile')">
+          <div class="artist-img-wrap"><div class="artist-avatar grad-3">🎸</div></div>
+          <div class="artist-info">
+            <div class="artist-name">SAM RIVERS</div>
+            <div class="artist-genre">Guitar · Blues / Rock</div>
+            <div class="artist-stats">
+              <div class="artist-stat"><strong>4.99</strong>Rating</div>
+              <div class="artist-stat"><strong>2.1K</strong>Students</div>
+              <div class="artist-stat"><strong>₹1,800</strong>/hr</div>
+            </div>
+          </div>
+        </div>
+        <div class="artist-card" onclick="showPage('profile')">
+          <div class="artist-img-wrap"><div class="artist-avatar grad-4">🎛️</div></div>
+          <div class="artist-info">
+            <div class="artist-name">LEA BEATS</div>
+            <div class="artist-genre">Production · Hip-Hop</div>
+            <div class="artist-stats">
+              <div class="artist-stat"><strong>4.97</strong>Rating</div>
+              <div class="artist-stat"><strong>740</strong>Students</div>
+              <div class="artist-stat"><strong>₹2,800</strong>/hr</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label">Simple Process</div>
+      <div class="section-title" style="text-align:center">How <span>Zinkly</span> Works</div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <div class="step-title">Browse Artists</div>
+          <div class="step-desc">Explore 500+ verified professional musicians across every genre and discipline.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <div class="step-title">Choose Your Lesson</div>
+          <div class="step-desc">Pick 1-on-1 sessions, group workshops, or ongoing mentorship packages.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <div class="step-title">Book & Pay Securely</div>
+          <div class="step-desc">Schedule at your convenience. Pay securely. Get instant confirmation.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">04</div>
+          <div class="step-title">Learn & Grow</div>
+          <div class="step-desc">Join live sessions, get personalized feedback, and build real industry connections.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section" style="background:var(--bg2)">
+    <div class="container">
+      <div class="section-label">Student Stories</div>
+      <div class="section-title">What Learners <span>Say</span></div>
+      <div class="testimonials-row">
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-text">"Booking a session with Aria Nova completely changed my vocal approach. In two hours I learned more than in a year of self-study. Absolutely transformational."</div>
+          <div class="testi-author">
+            <div class="testi-avatar grad-5">👩</div>
+            <div><div class="testi-name">Priya Sharma</div><div class="testi-role">Aspiring R&B Singer · Mumbai</div></div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-text">"DJ Voltz broke down his entire mixing technique step by step. The platform is seamless and the quality of instruction is on a completely different level."</div>
+          <div class="testi-author">
+            <div class="testi-avatar grad-6">👨</div>
+            <div><div class="testi-name">Marcus Chen</div><div class="testi-role">Bedroom DJ · Singapore</div></div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-text">"I landed my first publishing deal 3 months after my songwriting sessions on Zinkly. The access to real industry professionals is priceless."</div>
+          <div class="testi-author">
+            <div class="testi-avatar grad-7">👩</div>
+            <div><div class="testi-name">Amara Osei</div><div class="testi-role">Songwriter · London</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-banner">
+        <div>
+          <div class="section-label">Start Today</div>
+          <div class="cta-banner-title">Your Music Journey Begins <span>Now.</span></div>
+        </div>
+       <div class="cta-actions">
+
+  <button
+    class="btn-primary"
+    onclick="showPage('artists')"
+    style="
+      font-size:16px;
+      padding:18px 42px;
+      border-radius:60px;
+    "
+  >
+    ✦ Find Your Artist
+  </button>
+
+  <div style="font-size:13px;color:var(--muted)">
+    No subscription needed · Book anytime
+  </div>
+
+</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="nav-logo" style="font-size:28px">ZINKLY</div>
+          <p>Connecting the world's greatest music artists with the next generation of musicians, learners, and fans.</p>
+          <div class="social-links" style="margin-top:24px">
+            <div class="social-btn">📘</div>
+            <div class="social-btn">📸</div>
+            <div class="social-btn">🎵</div>
+            <div class="social-btn">🐦</div>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <a href="#">Browse Artists</a>
+          <a href="#">Book a Lesson</a>
+          <a href="#">Group Sessions</a>
+          <a href="#">Mentorship</a>
+          <a href="#">Discography</a>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <a href="#">Singing</a>
+          <a href="#">DJing</a>
+          <a href="#">Music Writing</a>
+          <a href="#">Production</a>
+          <a href="#">Instruments</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="#">About Us</a>
+          <a href="#">For Artists</a>
+          <a href="#">Blog</a>
+          <a href="#">Careers</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2025 Zinkly Inc. All rights reserved.</div>
+        <div style="display:flex;gap:24px">
+          <a href="#" style="color:var(--muted)">Privacy</a>
+          <a href="#" style="color:var(--muted)">Terms</a>
+          <a href="#" style="color:var(--muted)">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  PAGE 2: ARTISTS                                        -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="page" id="page-artists">
+  <section class="page-hero">
+    <div class="container" style="position:relative;z-index:2">
+      <div class="section-label">500+ Professionals</div>
+      <div class="section-title">Find Your <span>Perfect Artist</span></div>
+         <div class="section-sub" style="margin:0 auto;text-align:center">World-class musicians ready to teach, mentor, and inspire you — wherever you are.</div>
+  
+  <div class="filter-bar">
+  <button
+    class="filter-btn active"
+    data-category="all"
+  >
+    All Artists
+  </button>
+
+  <button
+    class="filter-btn"
+    data-category="singing"
+  >
+    🎤 Singing
+  </button>
+
+  <button
+    class="filter-btn"
+    data-category="dj"
+  >
+    🎧 DJing
+  </button>
+
+  <button
+    class="filter-btn"
+    data-category="writing"
+  >
+    ✍️ Songwriting
+  </button>
+
+  <button
+    class="filter-btn"
+    data-category="production"
+  >
+    🎛️ Production
+  </button>
+
+  <button
+    class="filter-btn"
+    data-category="guitar"
+  >
+    🎸 Guitar
+  </button>
+
+  <button
+    class="filter-btn"
+    data-category="piano"
+  >
+    🎹 Piano
+  </button>
+
+  <button
+    class="filter-btn"
+    data-category="drums"
+  >
+    🥁 Drums
+  </button>
+
+</div>
+    </div>
+  </section>
+  <div class="container" style="padding-bottom:80px">
+   <div class="artists-grid">
+
+  <!-- SINGING -->
+  <div class="artist-card artist-focus"
+       data-category="singing"
+       onclick="showPage('profile')">
+
+    <div class="artist-img-wrap">
+      <div class="artist-avatar grad-1" style="height:240px">
+        🎤
+      </div>
+    </div>
+
+    <div class="artist-info">
+
+      <div class="artist-name">
+        ARIA NOVA
+      </div>
+
+      <div class="artist-genre">
+        Vocal · R&B / Soul
+      </div>
+
+      <div style="margin-top:10px;display:flex;gap:8px">
+        <span class="tag tag-gold">Featured</span>
+        <span class="tag tag-pink">Grammy Nom.</span>
+      </div>
+
+      <div class="artist-stats">
+        <div class="artist-stat">
+          <strong>4.98</strong>
+          Rating
+        </div>
+
+        <div class="artist-stat">
+          <strong>₹2,400</strong>
+          /hr
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DJ -->
+  <div class="artist-card"
+       data-category="dj"
+       onclick="showPage('profile')">
+
+    <div class="artist-img-wrap">
+      <div class="artist-avatar grad-2" style="height:240px">
+        🎧
+      </div>
+    </div>
+
+    <div class="artist-info">
+
+      <div class="artist-name">
+        DJ VOLTZ
+      </div>
+
+      <div class="artist-genre">
+        DJ · Electronic
+      </div>
+
+      <div style="margin-top:10px;display:flex;gap:8px">
+        <span class="tag tag-teal">Top Rated</span>
+      </div>
+
+      <div class="artist-stats">
+        <div class="artist-stat">
+          <strong>4.96</strong>
+          Rating
+        </div>
+
+        <div class="artist-stat">
+          <strong>₹3,200</strong>
+          /hr
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GUITAR -->
+  <div class="artist-card"
+       data-category="guitar"
+       onclick="showPage('profile')">
+
+    <div class="artist-img-wrap">
+      <div class="artist-avatar grad-3" style="height:240px">
+        🎸
+      </div>
+    </div>
+
+    <div class="artist-info">
+
+      <div class="artist-name">
+        SAM RIVERS
+      </div>
+
+      <div class="artist-genre">
+        Guitar · Blues / Rock
+      </div>
+
+      <div style="margin-top:10px;display:flex;gap:8px">
+        <span class="tag tag-gold">Bestseller</span>
+      </div>
+
+      <div class="artist-stats">
+        <div class="artist-stat">
+          <strong>4.99</strong>
+          Rating
+        </div>
+
+        <div class="artist-stat">
+          <strong>₹1,800</strong>
+          /hr
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PRODUCTION -->
+  <div class="artist-card"
+       data-category="production"
+       onclick="showPage('profile')">
+
+    <div class="artist-img-wrap">
+      <div class="artist-avatar grad-4" style="height:240px">
+        🎛️
+      </div>
+    </div>
+
+    <div class="artist-info">
+
+      <div class="artist-name">
+        LEA BEATS
+      </div>
+
+      <div class="artist-genre">
+        Production · Hip-Hop
+      </div>
+
+      <div style="margin-top:10px;display:flex;gap:8px">
+        <span class="tag tag-pink">New</span>
+      </div>
+
+      <div class="artist-stats">
+        <div class="artist-stat">
+          <strong>4.97</strong>
+          Rating
+        </div>
+
+        <div class="artist-stat">
+          <strong>₹2,800</strong>
+          /hr
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PIANO -->
+ <div class="artist-card hidden-artist"
+       data-category="piano"
+       onclick="showPage('profile')">
+
+    <div class="artist-img-wrap">
+      <div class="artist-avatar grad-5" style="height:240px">
+        🎹
+      </div>
+    </div>
+
+    <div class="artist-info">
+
+      <div class="artist-name">
+        KIRA MOON
+      </div>
+
+      <div class="artist-genre">
+        Piano · Classical / Jazz
+      </div>
+
+      <div style="margin-top:10px;display:flex;gap:8px">
+        <span class="tag tag-teal">Top Rated</span>
+      </div>
+
+      <div class="artist-stats">
+        <div class="artist-stat">
+          <strong>5.0</strong>
+          Rating
+        </div>
+
+        <div class="artist-stat">
+          <strong>₹2,100</strong>
+          /hr
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WRITING -->
+  <div class="artist-card hidden-artist"
+       data-category="writing"
+       onclick="showPage('profile')">
+
+    <div class="artist-img-wrap">
+      <div class="artist-avatar grad-6" style="height:240px">
+        ✍️
+      </div>
+    </div>
+
+    <div class="artist-info">
+
+      <div class="artist-name">
+        VERSE KING
+      </div>
+
+      <div class="artist-genre">
+        Songwriting · Pop / Rap
+      </div>
+
+      <div style="margin-top:10px;display:flex;gap:8px">
+        <span class="tag tag-gold">Platinum Writer</span>
+      </div>
+
+      <div class="artist-stats">
+        <div class="artist-stat">
+          <strong>4.94</strong>
+          Rating
+        </div>
+
+        <div class="artist-stat">
+          <strong>₹3,600</strong>
+          /hr
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DRUMS -->
+  <div class="artist-card"
+       data-category="drums"
+       onclick="showPage('profile')">
+
+    <div class="artist-img-wrap">
+      <div class="artist-avatar grad-7" style="height:240px">
+        🥁
+      </div>
+    </div>
+
+    <div class="artist-info">
+
+      <div class="artist-name">
+        TROY BOOM
+      </div>
+
+      <div class="artist-genre">
+        Drums · Funk / Jazz
+      </div>
+
+      <div style="margin-top:10px;display:flex;gap:8px">
+        <span class="tag tag-pink">Fan Favorite</span>
+      </div>
+
+      <div class="artist-stats">
+        <div class="artist-stat">
+          <strong>4.95</strong>
+          Rating
+        </div>
+
+        <div class="artist-stat">
+          <strong>₹1,600</strong>
+          /hr
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- EXTRA -->
+ <div class="artist-card hidden-artist"
+     data-category="instrument"
+     onclick="showPage('profile')">
+
+    <div class="artist-img-wrap">
+
+      <div class="artist-avatar grad-8" style="height:240px">
+        🎺
+      </div>
+
+    </div>
+
+    <div class="artist-info">
+
+      <div class="artist-name">
+        MILES ECHO
+      </div>
+
+      <div class="artist-genre">
+        Trumpet · Jazz / Soul
+      </div>
+
+      <div style="margin-top:10px;display:flex;gap:8px">
+        <span class="tag tag-teal">Live Tours</span>
+      </div>
+
+      <div class="artist-stats">
+
+        <div class="artist-stat">
+          <strong>4.92</strong>
+          Rating
+        </div>
+
+        <div class="artist-stat">
+          <strong>₹2,000</strong>
+          /hr
+        </div>
+
+      </div>
+
+    </div>
+
+</div>
+
+<div style="text-align:center;margin-top:50px">
+    </div>
+
+</div>
+
+<div style="text-align:center;margin-top:50px">
+
+  <button
+      class="btn-outline"
+      style="padding:16px 48px"
+      onclick="loadMoreArtists(this)"
+  >
+
+    Load More Artists ↓
+
+  </button>
+
+</div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  PAGE 3: ARTIST PROFILE                                 -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="page" id="page-profile">
+  <div class="container">
+    <div class="profile-hero">
+      <!-- LEFT: Photo + Stats -->
+      <div>
+        <div class="profile-img-wrap">
+          <div class="profile-img"><div class="profile-img-inner grad-1">🎤</div></div>
+          <div class="profile-verified">✓ Verified Artist</div>
+        </div>
+        <div class="profile-stats">
+          <div class="profile-stat"><div class="profile-stat-val">4.98</div><div class="profile-stat-label">★ Rating</div></div>
+          <div class="profile-stat"><div class="profile-stat-val">1.2K</div><div class="profile-stat-label">Students</div></div>
+          <div class="profile-stat"><div class="profile-stat-val">320</div><div class="profile-stat-label">Lessons</div></div>
+        </div>
+      </div>
+      <!-- RIGHT: Info -->
+      <div>
+        <div class="section-label" style="margin-bottom:12px">Grammy Nominated Vocal Artist</div>
+        <div class="profile-info-name">ARIA<br>NOVA</div>
+        <div class="profile-genre-tags">
+          <span class="tag tag-pink">🎤 Singing</span>
+          <span class="tag tag-gold">R&B</span>
+          <span class="tag">Soul</span>
+          <span class="tag">Pop</span>
+          <span class="tag tag-teal">Mentorship</span>
+        </div>
+        <p class="profile-bio">Aria Nova is a Grammy-nominated R&B and Soul artist from Los Angeles with over a decade of professional recording and touring experience. She has worked with some of the biggest names in the industry and brings that real-world knowledge directly to her students on Zinkly.<br><br>Her teaching focuses on vocal technique, emotional delivery, stage presence, and the business of music. Whether you're a complete beginner or a working professional looking to elevate your craft, Aria's sessions are designed to create breakthroughs.</p>
+        <div class="profile-actions">
+          <button class="btn-primary" onclick="showPage('booking')">✦ Book a Lesson</button>
+          <button class="btn-outline">📩 Send Message</button>
+          <button class="btn-outline">❤️ Follow</button>
+        </div>
+        <div style="display:flex;gap:30px;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)">
+          <div><div style="font-size:12px;color:var(--muted)">Response Rate</div><div style="font-weight:700;margin-top:4px">98%</div></div>
+          <div><div style="font-size:12px;color:var(--muted)">Avg. Response</div><div style="font-weight:700;margin-top:4px">2 Hours</div></div>
+          <div><div style="font-size:12px;color:var(--muted)">Languages</div><div style="font-weight:700;margin-top:4px">English, Spanish</div></div>
+          <div><div style="font-size:12px;color:var(--muted)">Next Available</div><div style="font-weight:700;margin-top:4px;color:var(--teal)">Tomorrow</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAIL SECTIONS -->
+    <div class="profile-sections">
+      <!-- Lessons Available -->
+      <div class="section-box">
+        <div class="section-box-header">
+          <div class="section-box-title">🎓 Lessons Available</div>
+          <button class="btn-primary" style="font-size:12px;padding:8px 20px" onclick="showPage('booking')">Book Now</button>
+        </div>
+        <div class="section-box-body">
+          <div class="lesson-item">
+            <div><div class="lesson-type">1-on-1 Vocal Session</div><div class="lesson-detail">60 min · Online · Personalized feedback</div></div>
+            <div class="lesson-price"><div class="lesson-price-val">₹2,400</div><div class="lesson-price-unit">per session</div></div>
+          </div>
+          <div class="lesson-item">
+            <div><div class="lesson-type">Group Masterclass</div><div class="lesson-detail">90 min · Online · Up to 8 students</div></div>
+            <div class="lesson-price"><div class="lesson-price-val">₹800</div><div class="lesson-price-unit">per student</div></div>
+          </div>
+          <div class="lesson-item">
+            <div><div class="lesson-type">Monthly Mentorship</div><div class="lesson-detail">4 sessions/mo · + WhatsApp feedback</div></div>
+            <div class="lesson-price"><div class="lesson-price-val">₹7,500</div><div class="lesson-price-unit">per month</div></div>
+          </div>
+          <div class="lesson-item" style="border-bottom:none">
+            <div><div class="lesson-type">Career Strategy Session</div><div class="lesson-detail">45 min · Industry advice + review</div></div>
+            <div class="lesson-price"><div class="lesson-price-val">₹3,200</div><div class="lesson-price-unit">per session</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Discography -->
+      <div class="section-box">
+        <div class="section-box-header">
+          <div class="section-box-title">🎵 Discography</div>
+          <span class="tag tag-gold">Stream on Apple Music</span>
+        </div>
+        <div class="section-box-body">
+          <div class="discography-item">
+            <div class="disco-cover grad-1">💿</div>
+            <div class="disco-info">
+              <div class="disco-title">Golden Hours</div>
+              <div class="disco-meta">Album · 2024 · 14 tracks</div>
+            </div>
+            <a href="https://music.apple.com" target="_blank" class="disco-apple"><span class="apple-icon">🍎</span> Listen</a>
+          </div>
+          <div class="discography-item">
+            <div class="disco-cover grad-5">🎵</div>
+            <div class="disco-info">
+              <div class="disco-title">Midnight Fire</div>
+              <div class="disco-meta">Single · 2023 · feat. DJ Voltz</div>
+            </div>
+            <a href="https://music.apple.com" target="_blank" class="disco-apple"><span class="apple-icon">🍎</span> Listen</a>
+          </div>
+          <div class="discography-item">
+            <div class="disco-cover grad-8">🎶</div>
+            <div class="disco-info">
+              <div class="disco-title">Soul Revival EP</div>
+              <div class="disco-meta">EP · 2022 · 6 tracks</div>
+            </div>
+            <a href="https://music.apple.com" target="_blank" class="disco-apple"><span class="apple-icon">🍎</span> Listen</a>
+          </div>
+          <div class="discography-item">
+            <div class="disco-cover grad-3">🎼</div>
+            <div class="disco-info">
+              <div class="disco-title">Rise (Debut Album)</div>
+              <div class="disco-meta">Album · 2020 · 12 tracks</div>
+            </div>
+            <a href="https://music.apple.com" target="_blank" class="disco-apple"><span class="apple-icon">🍎</span> Listen</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reviews -->
+      <div class="section-box profile-section-full">
+        <div class="section-box-header">
+          <div class="section-box-title">⭐ Student Reviews <span style="color:var(--gold);margin-left:8px">4.98 / 5.0</span></div>
+          <div style="font-size:13px;color:var(--muted)">1,200+ reviews</div>
+        </div>
+        <div class="section-box-body" style="display:grid;grid-template-columns:1fr 1fr;gap:0 40px">
+          <div class="review-item">
+            <div class="review-header"><div><div class="reviewer-name">Priya Sharma</div><div class="reviewer-time">2 weeks ago</div></div><div style="color:var(--gold);font-size:13px">★★★★★</div></div>
+            <div class="review-text">Absolutely life-changing session. Aria identified my exact problem areas in the first 10 minutes and gave me specific exercises that improved my range immediately. Can't recommend enough.</div>
+          </div>
+          <div class="review-item">
+            <div class="review-header"><div><div class="reviewer-name">Kenji Tanaka</div><div class="reviewer-time">1 month ago</div></div><div style="color:var(--gold);font-size:13px">★★★★★</div></div>
+            <div class="review-text">Aria's patience and expertise are unmatched. She tailored every minute of our session to my goals. I've taken lessons before, but nothing at this level. Booking my next session today.</div>
+          </div>
+          <div class="review-item" style="border-bottom:none">
+            <div class="review-header"><div><div class="reviewer-name">Aisha Mbeki</div><div class="reviewer-time">6 weeks ago</div></div><div style="color:var(--gold);font-size:13px">★★★★★</div></div>
+            <div class="review-text">The discography connection was a bonus — being able to listen to her actual releases on Apple Music before the session gave me so much context. It felt like learning from someone I already knew.</div>
+          </div>
+          <div class="review-item" style="border-bottom:none">
+            <div class="review-header"><div><div class="reviewer-name">Carlos Mendez</div><div class="reviewer-time">2 months ago</div></div><div style="color:var(--gold);font-size:13px">★★★★★</div></div>
+            <div class="review-text">From a complete beginner to performing at an open mic in 3 months — that's Aria's impact. She doesn't just teach notes and scales, she teaches you to feel the music. 10/10.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  PAGE 4: BOOKING                                        -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="page" id="page-booking">
+  <div class="container">
+    <div class="booking-layout">
+      <div>
+        <div style="padding-top:20px;margin-bottom:32px">
+          <div class="section-label">One-click Booking</div>
+          <div class="section-title">Book Your <span>Lesson</span></div>
+          <div class="section-sub">Fill in the details below and confirm your session. You'll receive a calendar invite and session link instantly.</div>
+        </div>
+        <div class="booking-form">
+          <div class="booking-form-header">
+            <div style="font-weight:700;font-size:18px">📅 Session Details</div>
+            <div style="color:var(--muted);font-size:13px;margin-top:6px">All times shown in your local timezone</div>
+          </div>
+          <div class="booking-form-body">
+            <div class="form-group">
+              <label class="form-label">Select Artist</label>
+              <select class="form-control">
+                <option>Aria Nova – Vocal / R&B</option>
+                <option>DJ Voltz – Electronic / DJing</option>
+                <option>Sam Rivers – Guitar / Blues</option>
+                <option>Lea Beats – Hip-Hop Production</option>
+                <option>Kira Moon – Piano / Jazz</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Session Type</label>
+              <select class="form-control">
+                <option>1-on-1 Private Lesson (60 min) – ₹2,400</option>
+                <option>Group Masterclass (90 min) – ₹800</option>
+                <option>Monthly Mentorship Package – ₹7,500/mo</option>
+                <option>Career Strategy Session (45 min) – ₹3,200</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Your Skill Level</label>
+              <select class="form-control">
+                <option>Complete Beginner</option>
+                <option>Some Experience</option>
+                <option>Intermediate</option>
+                <option>Advanced / Semi-Professional</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Preferred Date</label>
+                <input type="date" class="form-control" style="color-scheme:dark">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Your Timezone</label>
+                <select class="form-control">
+                  <option>IST – India Standard Time</option>
+                  <option>GMT – London</option>
+                  <option>EST – New York</option>
+                  <option>PST – Los Angeles</option>
+                  <option>JST – Tokyo</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Available Time Slots</label>
+              <div class="availability-grid">
+                <div class="avail-slot taken">9:00 AM</div>
+                <div class="avail-slot taken">10:00 AM</div>
+                <div class="avail-slot selected">11:00 AM ✓</div>
+                <div class="avail-slot">12:00 PM</div>
+                <div class="avail-slot taken">2:00 PM</div>
+                <div class="avail-slot">3:00 PM</div>
+                <div class="avail-slot">4:00 PM</div>
+                <div class="avail-slot taken">5:00 PM</div>
+                <div class="avail-slot">6:00 PM</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Your Name</label>
+                <input type="text" class="form-control" placeholder="Full name">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-control" placeholder="you@email.com">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">What do you want to achieve? (Optional)</label>
+              <textarea class="form-control" style="height:90px;resize:none" placeholder="Tell the artist your goals for this session..."></textarea>
+            </div>
+            <button class="btn-primary" onclick="completeBooking()"  style="width:100%;justify-content:center;padding:18px;font-size:15px;border-radius:12px">✦ Confirm & Pay Securely →</button>
+            <div style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted)">🔒 Secured by Razorpay · 100% Refundable if cancelled 24hrs before</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMARY SIDEBAR -->
+      <div class="booking-summary">
+        <div style="margin-top:100px">
+          <div class="summary-card">
+            <div class="summary-artist">
+              <div class="summary-avatar grad-1">🎤</div>
+              <div>
+                <div class="summary-artist-name">ARIA NOVA</div>
+                <div class="summary-artist-genre">Vocal · R&B / Soul</div>
+                <div style="display:flex;gap:4px;margin-top:6px;color:var(--gold);font-size:12px">★★★★★ <span style="color:var(--muted)">4.98</span></div>
+              </div>
+            </div>
+            <div class="summary-lines">
+              <div class="summary-line"><span class="summary-line-label">Session Type</span><span class="summary-line-val">1-on-1 Private</span></div>
+              <div class="summary-line"><span class="summary-line-label">Duration</span><span class="summary-line-val">60 minutes</span></div>
+              <div class="summary-line"><span class="summary-line-label">Date</span><span class="summary-line-val">Tomorrow</span></div>
+              <div class="summary-line"><span class="summary-line-label">Time</span><span class="summary-line-val">11:00 AM IST</span></div>
+              <div class="summary-line"><span class="summary-line-label">Format</span><span class="summary-line-val">Live Online (Video)</span></div>
+            </div>
+            <div class="summary-total">
+              <div class="summary-total-label">Total</div>
+              <div class="summary-total-val">₹2,400</div>
+            </div>
+          </div>
+          <div style="margin-top:20px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px">
+            <div style="font-weight:600;margin-bottom:16px;font-size:15px">✅ What's Included</div>
+            <div style="font-size:13px;color:rgba(255,255,255,0.75);display:flex;flex-direction:column;gap:10px">
+              <div>🎥 HD Video Session</div>
+              <div>📝 Post-session notes from artist</div>
+              <div>🎵 Session recording (48hrs)</div>
+              <div>💬 1-week follow-up chat</div>
+              <div>🔄 Free reschedule once</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  PAGE 5: HOW IT WORKS                                   -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="page" id="page-how">
+  <section class="hiw-hero">
+    <div class="container" style="position:relative;z-index:2">
+      <div class="section-label">Platform Guide</div>
+      <div class="section-title">Everything You Need to <span>Know</span></div>
+      <div class="section-sub" style="margin:0 auto;text-align:center;max-width:560px">Zinkly makes it simple to find, book, and learn from the world's greatest music artists.</div>
+    </div>
+  </section>
+
+  <div class="container" style="padding-bottom:30px">
+    <div class="hiw-steps">
+      <div class="hiw-step">
+        <div class="hiw-step-num">01</div>
+        <div><div class="hiw-step-title">Create Your Free Account</div><div class="hiw-step-desc">Sign up in under 60 seconds. Tell us your musical goals, current skill level, and what you want to learn. Zinkly personalizes your experience from day one.</div></div>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-step-num">02</div>
+        <div><div class="hiw-step-title">Browse & Discover Artists</div><div class="hiw-step-desc">Filter 500+ verified artists by genre, discipline, price, rating, and availability. Read bios, watch intro videos, and listen to their music on Apple Music.</div></div>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-step-num">03</div>
+        <div><div class="hiw-step-title">Choose Your Session Format</div><div class="hiw-step-desc">Select from 1-on-1 private lessons, small group masterclasses, or comprehensive monthly mentorship packages — whatever fits your budget and goals.</div></div>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-step-num">04</div>
+        <div><div class="hiw-step-title">Book & Pay Securely</div><div class="hiw-step-desc">Pick your time slot and pay securely via Razorpay. Receive instant confirmation, calendar invite, and your video session link.</div></div>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-step-num">05</div>
+        <div><div class="hiw-step-title">Attend Your Live Session</div><div class="hiw-step-desc">Join your HD video session at the scheduled time. All sessions are recorded so you can review your lesson at any time within 48 hours.</div></div>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-step-num">06</div>
+        <div><div class="hiw-step-title">Grow, Track & Repeat</div><div class="hiw-step-desc">Track your progress, receive post-session notes, and follow up with your artist. Build a long-term relationship and watch your skills soar.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="section" style="background:var(--bg2)">
+    <div class="container">
+      <div class="section-label" style="text-align:center">Why Zinkly</div>
+      <div class="section-title"  style="text-align:center;font-size:88px">Built for <span>Serious Musicians</span></div>
+      <div class="features-grid">
+        <div class="feature-item">
+          <span class="feature-icon">🌍</span>
+          <div class="feature-title">Global Artist Network</div>
+          <div class="feature-desc">Access 500+ verified professional artists from 60+ countries, spanning every genre and instrument.</div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">📱</span>
+          <div class="feature-title">Learn From Anywhere</div>
+          <div class="feature-desc">All sessions are live online via HD video. Learn from your bedroom, studio, or on the go — no travel needed.</div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🍎</span>
+          <div class="feature-title">Apple Music Integration</div>
+          <div class="feature-desc">Explore your artist's full discography directly on Zinkly with one-click links to Apple Music for easy streaming and download.</div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🎯</span>
+          <div class="feature-title">Personalized Learning</div>
+          <div class="feature-desc">Every session is tailored to your goals, skill level, and style. Get feedback designed specifically for you.</div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🔒</span>
+          <div class="feature-title">Secure & Transparent</div>
+          <div class="feature-desc">All payments are secured and refundable. No hidden fees. What you see is what you pay.</div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🤝</span>
+          <div class="feature-title">Real Mentorship</div>
+          <div class="feature-desc">Go beyond technique. Get real industry insights, career guidance, and connections from artists who are actively working in the music business.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label" style="text-align:center;font-size: 10.5px;">Flexible Plans</div>
+      <div class="section-title" style="text-align:center">Simple <span>Pricing</span></div>
+      <div class="pricing-cards">
+        <div class="pricing-card">
+          <div class="pricing-plan">Starter</div>
+          <div style="margin:20px 0 4px"><div class="pricing-price"><sup>₹</sup>0</div></div>
+          <div class="pricing-period">Free forever</div>
+          <ul class="pricing-features">
+            <li>Browse all artists</li>
+            <li>View artist profiles</li>
+            <li>Access discography links</li>
+            <li>1 free intro session</li>
+          </ul>
+          <button class="btn-outline" style="width:100%;justify-content:center;border-radius:12px">Get Started Free</button>
+        </div>
+        <div class="pricing-card featured">
+          <div class="pricing-badge">MOST POPULAR</div>
+          <div class="pricing-plan">Pro Learner</div>
+          <div style="margin:20px 0 4px"><div class="pricing-price"><sup>₹</sup>1,499</div></div>
+          <div class="pricing-period">per month</div>
+          <ul class="pricing-features">
+            <li>Everything in Starter</li>
+            <li>10% off all sessions</li>
+            <li>Priority booking</li>
+            <li>Session recordings (30 days)</li>
+            <li>Artist community access</li>
+          </ul>
+          <button class="btn-primary" style="width:100%;justify-content:center;border-radius:12px" onclick="showPage('booking')">Start Learning</button>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-plan">Mentorship+</div>
+          <div style="margin:20px 0 4px"><div class="pricing-price"><sup>₹</sup>4,999</div></div>
+          <div class="pricing-period">per month</div>
+          <ul class="pricing-features">
+            <li>Everything in Pro</li>
+            <li>20% off all sessions</li>
+            <li>Dedicated artist matching</li>
+            <li>Monthly career review</li>
+            <li>Industry network access</li>
+            <li>Portfolio review sessions</li>
+          </ul>
+          <button class="btn-outline" style="width:100%;justify-content:center;border-radius:12px">Get Mentorship+</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  PAGE 6: CONTACT                                        -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+  <!-- NEWSLETTER BAND -->
+  <div class="newsletter-band" style="padding-top:120px">
+    <div class="container">
+      <div class="section-label" style="text-align:center">Never Miss a Beat</div>
+      <h3>Join the Zinkly <span style="color:var(--gold)">Community</span></h3>
+      <p>New artists, masterclasses, and exclusive content — straight to your inbox.</p>
+      <div class="newsletter-row">
+        <input type="email" class="form-control" placeholder="your@email.com">
+       <button onclick="subscribeNow()" class="btn-primary">
+         Subscribe ✦
+     </button>
+      </div>
+      <div style="margin-top:16px;font-size:12px;color:var(--muted)">Join 40,000+ music learners · No spam, ever</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="contact-layout">
+      <div class="contact-info">
+        <div class="section-label">Get In Touch</div>
+        <h2>Let's Make <span>Music</span> Together.</h2>
+        <p>Whether you're an aspiring learner, a professional artist wanting to join our platform, or a business looking to collaborate — we'd love to hear from you.</p>
+        <div class="contact-methods">
+          <div class="contact-method">
+            <div class="cm-icon">📧</div>
+            <div><div class="cm-label">Email Us</div><div class="cm-val">hello@zinkly.com</div></div>
+          </div>
+          <div class="contact-method">
+            <div class="cm-icon">💼</div>
+            <div><div class="cm-label">Artist Applications</div><div class="cm-val">artists@zinkly.com</div></div>
+          </div>
+          <div class="contact-method">
+            <div class="cm-icon">🤝</div>
+            <div><div class="cm-label">Partnerships</div><div class="cm-val">partners@zinkly.com</div></div>
+          </div>
+          <div class="contact-method">
+            <div class="cm-icon">💬</div>
+            <div><div class="cm-label">Live Chat</div><div class="cm-val">Available 9AM – 9PM IST</div></div>
+          </div>
+        </div>
+        <div style="margin-top:40px">
+          <div style="font-weight:600;margin-bottom:16px">Are you an artist?</div>
+          <p style="font-size:14px;color:var(--muted);margin-bottom:20px">Join 500+ artists already earning on Zinkly. Apply to become a mentor and start building your teaching legacy.</p>
+          <button onclick="artistApply()" class="btn-primary">
+            Apply as an Artist →
+         </button>
+        </div>
+      </div>
+
+     <form
+  action="https://api.web3forms.com/submit"
+  method="POST"
+  class="contact-form"
+>
+
+<input
+  type="hidden"
+  name="access_key"
+  value="ee4f68e0-e633-4b96-8509-c9732330967e"
+>
+
+<h3>Send a Message</h3>
+
+<p>
+  We typically respond within 2 business hours.
+</p>
+
+<div class="form-group">
+  <label class="form-label">I am a...</label>
+
+  <select class="form-control" name="user_type">
+
+    <option selected="selected">
+      Aspiring Learner / Fan
+    </option>
+
+    <option>
+      Professional Artist
+    </option>
+
+    <option>
+      Business / Brand
+    </option>
+
+    <option>
+      Press / Media
+    </option>
+
+  </select>
+</div>
+
+<div class="form-row">
+
+  <div class="form-group">
+
+    <label class="form-label">
+      Your Name
+    </label>
+
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Full name"
+      name="name"
+      required
+    >
+
+  </div>
+
+  <div class="form-group">
+
+    <label class="form-label">
+      Email
+    </label>
+
+    <input
+      type="email"
+      class="form-control"
+      placeholder="you@email.com"
+      name="email"
+      required
+    >
+
+  </div>
+
+</div>
+
+<div class="form-group">
+
+  <label class="form-label">
+    Subject
+  </label>
+
+  <input
+    type="text"
+    class="form-control"
+    placeholder="What's this about?"
+    name="subject"
+  >
+
+</div>
+
+<div class="form-group">
+
+  <label class="form-label">
+    Message
+  </label>
+
+  <textarea
+    class="form-control"
+    placeholder="Tell us how we can help..."
+    name="message"
+    required
+  ></textarea>
+
+</div>
+
+<button
+  type="submit"
+  class="btn-primary"
+  style="
+    width:100%;
+    justify-content:center;
+    padding:16px;
+    border-radius:12px
+  "
+>
+  Send Message ✦
+</button>
+
+</form>
+
+  <!-- FOOTER (reused) -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="nav-logo" style="font-size:28px">ZINKLY</div>
+          <p>Connecting the world's greatest music artists with the next generation of musicians, learners, and fans.</p>
+          <div class="social-links" style="margin-top:24px">
+            <div class="social-btn">📘</div>
+            <div class="social-btn">📸</div>
+            <div class="social-btn">🎵</div>
+            <div class="social-btn">🐦</div>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Platform</h4><a href="#">Browse Artists</a><a href="#">Book a Lesson</a><a href="#">Group Sessions</a><a href="#">Discography</a></div>
+        <div class="footer-col"><h4>Learn</h4><a href="#">Singing</a><a href="#">DJing</a><a href="#">Songwriting</a><a href="#">Production</a></div>
+        <div class="footer-col"><h4>Company</h4><a href="#">About Us</a><a href="#">For Artists</a><a href="#">Blog</a><a href="#">Careers</a></div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2025 Zinkly Inc. All rights reserved.</div>
+        <div style="display:flex;gap:24px"><a href="#" style="color:var(--muted)">Privacy</a><a href="#" style="color:var(--muted)">Terms</a><a href="#" style="color:var(--muted)">Cookies</a></div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  JAVASCRIPT                                             -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- =========================================
+     PAGE NAVIGATION + INTERACTIONS
+========================================= -->
+
+<script>
+
+/* =========================================
+   PAGE SWITCHING SYSTEM
+========================================= */
+
+const pages = [
+    'home',
+    'artists',
+    'profile',
+    'booking',
+    'how',
+    'contact'
+];
+
+/* =========================================
+   NAVIGATION ACTIVE STATES
+========================================= */
+
+const navMap = {
+    home:'nav-home',
+    artists:'nav-artists',
+    profile:'nav-profile',
+    booking:'nav-home',
+    how:'nav-how',
+    contact:'nav-contact'
+};
+
+/* =========================================
+   SHOW PAGE FUNCTION
+========================================= */
+
+function showPage(name) {
+
+    /* Remove active class from all pages */
+
+    pages.forEach(p => {
+
+        const el = document.getElementById('page-' + p);
+
+        if(el){
+            el.classList.remove('active');
+        }
+
+    });
+
+    /* Activate selected page */
+
+    const target = document.getElementById('page-' + name);
+
+    if(target){
+
+        target.classList.add('active');
+
+        window.scrollTo({
+            top:0,
+            behavior:'smooth'
+        });
+
+    }
+
+    /* Update navbar active state */
+
+    document
+        .querySelectorAll('.nav-links button, .nav-links a')
+        .forEach(b => b.classList.remove('active'));
+
+    const navId = navMap[name];
+
+    if(navId){
+
+        const nb = document.getElementById(navId);
+
+        if(nb){
+            nb.classList.add('active');
+        }
+
+    }
+
+}
+
+/* =========================================
+   GLASS NAVBAR SCROLL EFFECT
+========================================= */
+
+window.addEventListener("scroll", function () {
+
+    const nav = document.querySelector("nav");
+
+    if(window.scrollY > 40){
+
+        nav.classList.add("scrolled");
+
+    }else{
+
+        nav.classList.remove("scrolled");
+
+    }
+
+});
+
+/* =========================================
+   ARTIST CATEGORY LINKING
+========================================= */
+
+function openArtistCategory(category){
+
+    /* Open artists page */
+
+    showPage('artists');
+
+    /* Remove all active filters */
+
+    document
+        .querySelectorAll('.filter-btn')
+        .forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+    /* Activate matching filter */
+
+    const activeBtn = document.querySelector(
+        `.filter-btn[data-category="${category}"]`
+    );
+
+    if(activeBtn){
+        activeBtn.classList.add('active');
+    }
+
+    /* Filter artist cards */
+
+    document
+        .querySelectorAll('.artist-card')
+        .forEach(card => {
+
+            if(card.dataset.category === category){
+
+                card.style.display = 'block';
+
+                card.classList.add('artist-focus');
+
+            }else{
+
+                card.style.display = 'none';
+
+                card.classList.remove('artist-focus');
+
+            }
+
+        });
+
+}
+
+/* =========================================
+   ARTIST CATEGORY LINKING
+========================================= */
+
+function openArtistCategory(category){
+
+    showPage('artists');
+
+    document
+        .querySelectorAll('.filter-btn')
+        .forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+    const activeBtn = document.querySelector(
+        `.filter-btn[data-category="${category}"]`
+    );
+
+    if(activeBtn){
+        activeBtn.classList.add('active');
+    }
+
+    document
+        .querySelectorAll('.artist-card')
+        .forEach(card => {
+
+            if(card.dataset.category === category){
+
+                card.style.display = 'block';
+
+                card.classList.add('artist-focus');
+
+            }else{
+
+                card.style.display = 'none';
+
+                card.classList.remove('artist-focus');
+
+            }
+
+        });
+
+}
+
+/* =========================================
+   OPEN ALL ARTISTS
+========================================= */
+
+function openAllArtists() {
+
+    showPage('artists');
+
+    document
+      .querySelectorAll('.filter-btn')
+      .forEach(btn => btn.classList.remove('active'));
+
+    const allBtn = document.querySelector(
+      '.filter-btn[data-category="all"]'
+    );
+
+    if(allBtn){
+      allBtn.classList.add('active');
+    }
+
+    document
+      .querySelectorAll('.artist-card')
+      .forEach(card => {
+
+          card.style.display = 'block';
+
+          card.classList.remove('artist-focus');
+
+      });
+
+}
+
+/* =========================================
+   FILTER BUTTONS
+========================================= */
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+
+    btn.addEventListener('click', function() {
+
+        /* Active button UI */
+
+        this.closest('.filter-bar')
+            .querySelectorAll('.filter-btn')
+            .forEach(b => b.classList.remove('active'));
+
+        this.classList.add('active');
+
+        /* Get selected category */
+
+        const category = this.dataset.category;
+
+        /* Filter artist cards */
+
+        document.querySelectorAll('.artist-card')
+            .forEach(card => {
+
+                if(category === 'all'){
+
+                    card.style.display = 'block';
+
+                    return;
+                }
+
+                if(card.dataset.category === category){
+
+                    card.style.display = 'block';
+
+                }else{
+
+                    card.style.display = 'none';
+
+                }
+
+            });
+
+    });
+
+});
+
+/* =========================================
+   LOAD MORE ARTISTS
+========================================= */
+
+function loadMoreArtists(button){
+
+    document
+        .querySelectorAll('.hidden-artist')
+        .forEach(card => {
+
+            card.style.display = 'block';
+
+            card.classList.remove('hidden-artist');
+
+        });
+
+    /* Hide button after click */
+
+    button.style.display = 'none';
+
+}
+
+/* =========================================
+   AVAILABILITY SLOT SELECTION
+========================================= */
+
+document
+    .querySelectorAll('.avail-slot:not(.taken)')
+    .forEach(slot => {
+
+        slot.addEventListener('click', function() {
+
+            document
+                .querySelectorAll('.avail-slot')
+                .forEach(s => s.classList.remove('selected'));
+
+            this.classList.add('selected');
+
+            this.textContent =
+                this.textContent.replace(' ✓','') + ' ✓';
+
+        });
+
+});
+
+function completeBooking(){
+
+    alert(
+      "✅ Payment Request Accepted!\n\nYour lesson booking has been submitted successfully."
+    );
+
+}
+
+function subscribeNow() {
+  alert("✅ Thanks for subscribing!");
+}
+
+function artistApply() {
+  alert("✅ Artist application request submitted!");
+}
+
+</script>
+
+</body>
+</html>
